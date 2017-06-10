@@ -21,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -132,13 +133,35 @@ public class RootViewController {
     }
 
     @FXML
-    private void showAllOrder() {
-
+    private void showOrder() {
+        try {
+            OrderInfoOverviewController.showOrder(getOrder(),this);
+        } catch (IOException e) {
+            e.printStackTrace();
+            String message = "Ошибка отображения окна заказа";
+            String contentText = "";
+            MessageManager.getInstance().showErrorMessage(primaryStage,message,contentText);
+        }
     }
 
     @FXML
     private void saveOrderToXML() {
-
+        File defaultFile = PropertiesManager.getInstance().getDefaultOrderFile();
+        File file = FileChooserDialog.getInstance().getXMLFileToSave(primaryStage, defaultFile);
+        if (file == null) {
+            return;
+        }
+        try {
+            orderSaverLoader.saveOrderToXML(file, getOrder());
+            String message = "Заказ успешно сохранен";
+            String content = "Файл заказа находится по пути:\n" + file.getAbsolutePath();
+            MessageManager.getInstance().showInfoMessage(primaryStage, message, content);
+        }catch (JAXBException e) {
+            String message = "Невозможно сохранить файл!";
+            String contentText = "Возможно файл открыт в другом приложении или защищен от записи";
+            MessageManager.getInstance().showErrorMessage(primaryStage, message, contentText);
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -163,7 +186,18 @@ public class RootViewController {
 
     @FXML
     private void loadOrderFromXML() {
-
+        File defaultFile = PropertiesManager.getInstance().getDefaultAddFolder();
+        File file = FileChooserDialog.getInstance().getXMLFileToLoad(primaryStage,defaultFile);
+        if((file != null)&&(file.exists())){
+            try {
+                orderSaverLoader.saveOrderToXML(file,getOrder());
+                String message = "Заказ успешно сохранен в файл";
+                String contentText = "Путь сохранения :\n" + file.getAbsolutePath();
+                MessageManager.getInstance().showInfoMessage(primaryStage,message,contentText);
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
@@ -198,13 +232,14 @@ public class RootViewController {
     }
 
     @FXML
-    private void handleExit() {
+    public void handleExit() {
         String tytle = "Выход из приложения";
         String message = "Сохранить заказ в файле по умолчанию?";
         String contentText = "Нажмите \"ОК\" чтобы сохранить заказ в файле по умолчанию";
         ButtonType answer = MessageManager.getInstance().showConfirmMessage(primaryStage, message, tytle, contentText);
         if (answer == ButtonType.OK) {
             serializeMenuOnExit();
+            serializeOrderOnExit();
             System.out.println("Сохранено");
         }
         //TODO Дописать код по сохранению заказа в файле по умолчанию
@@ -231,6 +266,26 @@ public class RootViewController {
         }
     }
 
+
+
+    public void loadBackupFiles(){
+        deserializeMenuOnStartup();
+        deserializeOrderOnStartup();
+    }
+    /**
+     * Десериализация меню при запуске
+     */
+    private void deserializeMenuOnStartup() {
+        File file = PropertiesManager.getInstance().getDefaultMenuFile();
+        if ((file != null) && (file.exists())) {
+            try {
+                dishMenu = menuLoaderSaver.deserializeMenu(file);
+                loadMenu(dishMenu);
+            } catch (ClassNotFoundException | IOException e) {
+                MessageManager.getInstance().showExceptionMessage(e, null);
+            }
+        }
+    }
     /**
      * Сериализация меню при закрытии приложения
      */
@@ -247,21 +302,49 @@ public class RootViewController {
     }
 
     /**
-     * Десериализация меню при запуске
+     *
+     * @return
      */
-    public void deserializeMenuOnStartup() {
-        File file = PropertiesManager.getInstance().getDefaultMenuFile();
+    private void deserializeOrderOnStartup(){
+        File file = PropertiesManager.getInstance().getDefaultOrderFile();
         if ((file != null) && (file.exists())) {
             try {
-                dishMenu = menuLoaderSaver.deserializeMenu(file);
-                loadMenu(dishMenu);
-            } catch (ClassNotFoundException | IOException e) {
+                Order order = orderSaverLoader.loadOrderFromXML(file);
+                loadOrderToScene(order);
+            } catch (JAXBException e) {
                 MessageManager.getInstance().showExceptionMessage(e, null);
             }
         }
     }
 
-    private Order getOrder() {
+    /**
+     * Сериализация заказа при закрытии
+     */
+    private void serializeOrderOnExit(){
+        File file = PropertiesManager.getInstance().getDefaultOrderFile();
+        System.out.println(file);
+        if(file != null){
+            try {
+                orderSaverLoader.saveOrderToXML(file, getOrder());
+                System.out.println("Сериализация заказа прошла успешно");
+            } catch (JAXBException e) {
+                MessageManager.getInstance().showExceptionMessage(e, primaryStage);
+            }
+        }
+    }
+    /*
+     * Загрузка заказа в окно заказа
+     */
+    private void loadOrderToScene(Order order){
+        orderTabsMap.entrySet().forEach(entry ->{
+            OrderTabController tabController = entry.getValue();
+            Day day = entry.getValue().getCurrentDay();
+            tabController.getDishList().addAll(order.getOrderMap().get(day));
+                }
+        );
+    }
+
+    Order getOrder() {
         Order order = new Order();
         //TODO Прописать присвоение имени заказу
 

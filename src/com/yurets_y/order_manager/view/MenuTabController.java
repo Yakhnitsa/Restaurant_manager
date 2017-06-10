@@ -3,6 +3,7 @@ package com.yurets_y.order_manager.view;
 import com.yurets_y.order_manager.bin.Day;
 import com.yurets_y.order_manager.bin.Dish;
 import com.yurets_y.order_manager.util.CollectionsUtil;
+import com.yurets_y.order_manager.util.MessageManager;
 import com.yurets_y.order_manager.view.RootViewController;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -18,6 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -76,9 +78,5 @@ public class MenuTabController {
         });
     }
 
-    @FXML
-    private void showInfoPanel(){
-
-    }
 
 }

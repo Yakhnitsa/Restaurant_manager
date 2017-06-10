@@ -34,9 +34,9 @@
               <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Выйти" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Информация">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#showOrder" text="Отобразить заказ" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

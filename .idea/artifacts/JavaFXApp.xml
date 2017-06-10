@@ -1,15 +1,28 @@
 <component name="ArtifactManager">
   <artifact type="javafx" name="JavaFXApp">
-    <output-path>$PROJECT_DIR$/out/artifacts/JavaFXApp</output-path>
+    <output-path>$PROJECT_DIR$/../../../../РАЗРАБОТКА/CompletedApps/restaurant_manager</output-path>
     <properties id="javafx-properties">
       <options>
-        <option name="appClass" value="sample.Main" />
+        <option name="appClass" value="com.yurets_y.order_manager.MainApp" />
+        <option name="description" value="" />
+        <option name="height" value="600" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+        <option name="width" value="800" />
       </options>
     </properties>
     <root id="root">
       <element id="archive" name="JavaFXApp.jar">
         <element id="module-output" name="Restaurant_manager" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/../../../java_lib/appache_common_collections/commons-collections4-4.0.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/../../../java_lib/appache_poi/poi-3.14/poi-3.14-20160307.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/../../../java_lib/appache_poi/poi-3.14/poi-ooxml-3.14-20160307.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/../../../java_lib/appache_poi/poi-3.14/poi-ooxml-schemas-3.14-20160307.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/../../../java_lib/appache_poi/poi-3.14/ooxml-lib/xmlbeans-2.6.0.jar" path-in-jar="/" />
       </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/res" />
     </root>
   </artifact>
 </component>

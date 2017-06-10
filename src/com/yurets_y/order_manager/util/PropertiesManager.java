@@ -46,7 +46,10 @@ public class PropertiesManager {
 
     public File getDefaultOrderFile(){
         String filePath = properties.getProperty("def.order.file");
-        return getFile(filePath);
+        if ((filePath == null) || (filePath.equals(""))) {
+            return null;
+        }
+        return new File(filePath);
     }
 
     public void setDefaultMenuFile(File file){

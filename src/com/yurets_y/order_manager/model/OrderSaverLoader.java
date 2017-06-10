@@ -3,7 +3,6 @@ package com.yurets_y.order_manager.model;
 import com.yurets_y.order_manager.bin.Day;
 import com.yurets_y.order_manager.bin.Dish;
 import com.yurets_y.order_manager.bin.Order;
-import com.yurets_y.order_manager.bin.OrderMapWrapper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -14,7 +13,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +21,6 @@ import java.util.Map;
  * Created by Admin on 25.05.2017.
  */
 public class OrderSaverLoader {
-
-    public void saveOrder(File file, OrderMapWrapper order){
-
-    }
 
     public void saveOrderToExcel(File file, Order order) throws IOException {
         Workbook workbook;

@@ -1,16 +1,21 @@
 package com.yurets_y.order_manager.bin;
 
+import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Admin on 25.05.2017.
  */
+@XmlType
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Dish implements Serializable{
     private String type;
     private String name;
     private String description;
+    @XmlElementWrapper(name="days", nillable = true)
     private List<Day> days;
+    @XmlElement
     private int prise;
 
     public Dish(String type, String name, String description, List<Day> days, double prise) {
@@ -73,5 +78,28 @@ public class Dish implements Serializable{
                 ", days=" + days +
                 ", prise=" + prise +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Dish dish = (Dish) o;
+
+        if (prise != dish.prise) return false;
+        if (type != null ? !type.equals(dish.type) : dish.type != null) return false;
+        if (!name.equals(dish.name)) return false;
+        return days.equals(dish.days);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = type != null ? type.hashCode() : 0;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + days.hashCode();
+        result = 31 * result + prise;
+        return result;
     }
 }

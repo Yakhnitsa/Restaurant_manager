@@ -1,6 +1,7 @@
 package com.yurets_y.order_manager.bin;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * Created by Admin on 29.05.2017.
  */
+@XmlType(namespace = "Day")
 public enum Day implements Serializable
     {
     MONDAY("Понедельник","ПН","ПНД","ПОН"),

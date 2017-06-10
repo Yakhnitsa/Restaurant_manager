@@ -1,4 +1,4 @@
-package tests.bin_tests.model_tests;
+package tests.bin_tests;
 
 import com.yurets_y.order_manager.bin.Day;
 import com.yurets_y.order_manager.bin.Dish;
@@ -9,13 +9,12 @@ import com.yurets_y.order_manager.util.OrderSerializer;
 import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.*;
 
 /**
- * Created by Admin on 31.05.2017.
+ * Created by Admin on 07.06.2017.
  */
-public class SaverTest {
+public class OrderSaverLoaderTest {
     public static void main(String[] args) throws IOException, JAXBException {
         serializeToXMLTest();
 
@@ -56,17 +55,14 @@ public class SaverTest {
 
         File file = new File("test_resources\\order.xml");
         manager.saveOrderToXML(file, order);
-        Order unmarshalledOrder = manager.loadOrderFromXML(file);
-
-        System.out.println("Equals: " + order.equals(unmarshalledOrder));
-        System.out.println("== : " + (order == unmarshalledOrder));
 
     }
 
     public static Order getTestOrder() {
         Order order = new Order();
 
-        List<Dish> dishes1 = new ArrayList();
+
+        ArrayList<Dish> dishes1 = new ArrayList();
         List<Day> days = Arrays.asList(Day.FRIDAY, Day.MONDAY);
         dishes1.add(new Dish("супы", "Борщ", "", days, 19));
         dishes1.add(new Dish("салат", "Мимоза", "", days, 23));
@@ -74,12 +70,12 @@ public class SaverTest {
         dishes1.add(new Dish("Мясо", "Котлета", "", days, 25));
 
 
-        List<Dish> dishes2 = new ArrayList();
+        ArrayList<Dish> dishes2 = new ArrayList();
         dishes2.add(new Dish("супы", "Суп", "", days, 19));
         dishes2.add(new Dish("салат", "Греческий", "", days, 23));
         dishes2.add(new Dish("Мясо", "Бедро", "", days, 25));
 
-        List<Dish> dishes3 = new ArrayList();
+        ArrayList<Dish> dishes3 = new ArrayList();
         dishes3.add(new Dish("супы", "Уха", "", days, 19));
         dishes3.add(new Dish("салат", "Оливье", "", days, 23));
         dishes3.add(new Dish("Мясо", "Ничего", "", days, 25));

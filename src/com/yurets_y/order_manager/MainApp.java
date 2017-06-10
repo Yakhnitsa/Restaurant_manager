@@ -38,9 +38,9 @@ public class MainApp extends Application {
         rootViewController.addOrderTab(Day.WEDNESDAY);
         rootViewController.addOrderTab(Day.THURSDAY);
         rootViewController.addOrderTab(Day.FRIDAY);
-        rootViewController.addOrderTab(Day.ANY_DAY);
         //Загрузка меню из сериализированного файла
-        rootViewController.deserializeMenuOnStartup();
+        rootViewController.loadBackupFiles();
+        primaryStage.setOnCloseRequest(event -> rootViewController.handleExit());
 
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
