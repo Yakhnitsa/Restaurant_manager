@@ -3,7 +3,7 @@ package com.yurets_y.order_manager.view;
 import com.yurets_y.order_manager.bin.Day;
 import com.yurets_y.order_manager.bin.Dish;
 import com.yurets_y.order_manager.bin.Order;
-import com.yurets_y.order_manager.model.MenuLoaderSaver;
+import com.yurets_y.order_manager.model.MenuSaverLoader;
 import com.yurets_y.order_manager.model.OrderSaverLoader;
 import com.yurets_y.order_manager.util.CollectionsUtil;
 import com.yurets_y.order_manager.util.FileChooserDialog;
@@ -13,21 +13,22 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import javax.xml.bind.JAXBException;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 /**
- * Created by Admin on 25.05.2017.
+ * Главный контроллер приложения
  */
 public class RootViewController {
 
@@ -38,6 +39,10 @@ public class RootViewController {
     private TabPane orderTabs;
     @FXML
     private CheckBox dayFilterCheckbox;
+    @FXML
+    private Button changeTitleButton;
+    @FXML
+    private TextField titleTextfield;
 
     private ObjectProperty<Day> dayFilter = new SimpleObjectProperty<>(Day.MONDAY);
     private List<Dish> dishMenu;
@@ -45,8 +50,20 @@ public class RootViewController {
     private Map<Tab, MenuTabController> menuTabsMap = new HashMap<>();
     private Map<Tab, OrderTabController> orderTabsMap = new LinkedHashMap<>();
 
-    private MenuLoaderSaver menuLoaderSaver = new MenuLoaderSaver();
+    private MenuSaverLoader menuSaverLoader = new MenuSaverLoader();
     private OrderSaverLoader orderSaverLoader = new OrderSaverLoader();
+
+    @FXML
+    private void initialize(){
+        changeTitleButton.setOnAction(event -> {
+            titleTextfield.setDisable(false);
+        });
+        titleTextfield.setDisable(true);
+        titleTextfield.setOnAction(event ->{
+            titleTextfield.setDisable(true);
+                }
+        );
+    }
 
     public Dish getSelectedDishFromMenu() {
         Tab selectedTab = menuTabs.getSelectionModel().getSelectedItem();
@@ -174,8 +191,12 @@ public class RootViewController {
         try {
             orderSaverLoader.saveOrderToExcel(file, getOrder());
             String message = "Заказ успешно сохранен";
-            String content = "Файл заказа находится по пути:\n" + file.getAbsolutePath();
-            MessageManager.getInstance().showInfoMessage(primaryStage, message, content);
+            String title = "Coхранение заказа";
+            String content = "Вы желаете открыть файл заказа:\n" + file.getAbsolutePath();
+            ButtonType answer = MessageManager.getInstance().showConfirmMessage(primaryStage,title, message, content);
+            if(answer == ButtonType.OK){
+                openFileInDesktop(file);
+            }
         } catch (IOException e) {
             String message = "Невозможно сохранить файл!";
             String contentText = "Возможно файл открыт в другом приложении или защищен от записи";
@@ -190,10 +211,13 @@ public class RootViewController {
         File file = FileChooserDialog.getInstance().getXMLFileToLoad(primaryStage,defaultFile);
         if((file != null)&&(file.exists())){
             try {
-                orderSaverLoader.saveOrderToXML(file,getOrder());
-                String message = "Заказ успешно сохранен в файл";
-                String contentText = "Путь сохранения :\n" + file.getAbsolutePath();
-                MessageManager.getInstance().showInfoMessage(primaryStage,message,contentText);
+                Order order = orderSaverLoader.loadOrderFromXML(file);
+                boolean sucess = loadOrderToScene(order);
+                if(sucess){
+                    String message = "Заказ успешно загружен";
+                    MessageManager.getInstance().showInfoMessage(primaryStage,message,"");
+                }
+
             } catch (JAXBException e) {
                 e.printStackTrace();
             }
@@ -210,7 +234,7 @@ public class RootViewController {
         File defaultFile = PropertiesManager.getInstance().getDefaultMenuFile();
         File file = FileChooserDialog.getInstance().getExelFileToLoad(primaryStage, defaultFile);
         try {
-            dishMenu = menuLoaderSaver.loadMenuFromExcel(file);
+            dishMenu = menuSaverLoader.loadMenuFromExcel(file);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (InvalidFormatException e) {
@@ -266,8 +290,6 @@ public class RootViewController {
         }
     }
 
-
-
     public void loadBackupFiles(){
         deserializeMenuOnStartup();
         deserializeOrderOnStartup();
@@ -279,9 +301,10 @@ public class RootViewController {
         File file = PropertiesManager.getInstance().getDefaultMenuFile();
         if ((file != null) && (file.exists())) {
             try {
-                dishMenu = menuLoaderSaver.deserializeMenu(file);
+                dishMenu = menuSaverLoader.loadMenuFromXML(file);
                 loadMenu(dishMenu);
-            } catch (ClassNotFoundException | IOException e) {
+            } catch (JAXBException e) {
+                dishMenu = new ArrayList<>();
                 MessageManager.getInstance().showExceptionMessage(e, null);
             }
         }
@@ -293,9 +316,9 @@ public class RootViewController {
         File file = PropertiesManager.getInstance().getDefaultMenuFile();
         if (dishMenu != null) {
             try {
-                menuLoaderSaver.serializeMenu(dishMenu, file);
-                System.out.println("сериализация прошла успешно");
-            } catch (IOException e) {
+                menuSaverLoader.saveMenuToXML(dishMenu, file);
+                System.out.println("сериализация меню прошла успешно");
+            } catch (JAXBException e) {
                 MessageManager.getInstance().showExceptionMessage(e, primaryStage);
             }
         }
@@ -303,7 +326,6 @@ public class RootViewController {
 
     /**
      *
-     * @return
      */
     private void deserializeOrderOnStartup(){
         File file = PropertiesManager.getInstance().getDefaultOrderFile();
@@ -322,7 +344,6 @@ public class RootViewController {
      */
     private void serializeOrderOnExit(){
         File file = PropertiesManager.getInstance().getDefaultOrderFile();
-        System.out.println(file);
         if(file != null){
             try {
                 orderSaverLoader.saveOrderToXML(file, getOrder());
@@ -332,21 +353,55 @@ public class RootViewController {
             }
         }
     }
+
     /*
-     * Загрузка заказа в окно заказа
+     * Загрузка заказа в окно заказа и проверка на наличие блюд в меню
+     * return false если загрузка прошла не совсем успешно
      */
-    private void loadOrderToScene(Order order){
+    private boolean loadOrderToScene(Order order){
+        StringBuilder sb = new StringBuilder();
+        titleTextfield.setText(order.getName());
         orderTabsMap.entrySet().forEach(entry ->{
             OrderTabController tabController = entry.getValue();
             Day day = entry.getValue().getCurrentDay();
-            tabController.getDishList().addAll(order.getOrderMap().get(day));
-                }
-        );
+            tabController.getDishList().clear();
+            List<Dish> dishes = order.getOrderMap().get(day);
+            //проверка каждого блюда на соответствие меню:
+                dishes.forEach(dish ->{
+                    if(dishMenu.contains(dish)){
+                        tabController.getDishList().add(dish);
+                    }
+                    else{
+                        sb.append(dish.getName()).append(System.lineSeparator());
+                    }
+                });
+            });
+        String dishScroll = sb.toString();
+        if(!dishScroll.equals("")){
+            String message = "Несоответствие меню и текущего заказа";
+            String title = "Ошибка при загрузке заказа";
+            MessageManager.getInstance().showTextAreaMessage(primaryStage,title,message,dishScroll);
+            return false;
+        }
+        return true;
+    }
+
+    private void openFileInDesktop(File file){
+        Desktop desktop = null;
+        if (Desktop.isDesktopSupported()) {
+            desktop = Desktop.getDesktop();
+        }
+        try {
+            desktop.open(file);
+        } catch (IOException ioe) {
+            MessageManager.getInstance().showExceptionMessage(ioe,null);
+            ioe.printStackTrace();
+        }
     }
 
     Order getOrder() {
         Order order = new Order();
-        //TODO Прописать присвоение имени заказу
+        order.setName(titleTextfield.getText());
 
         Map<Day, List<Dish>> orderMap = new LinkedHashMap<>();
         orderTabsMap.forEach((key, entry) -> {

@@ -40,9 +40,9 @@ public class OrderInfoOverviewController {
     @FXML
     private TableColumn<Dish,String> wednesdayColumn;
     @FXML
-    private TableView<Dish> thrirsday;
+    private TableView<Dish> thursday;
     @FXML
-    private TableColumn<Dish,String> thirsdayColumn;
+    private TableColumn<Dish,String> thursdayColumn;
     @FXML
     private TableView<Dish> friday;
     @FXML
@@ -58,7 +58,7 @@ public class OrderInfoOverviewController {
 
         controller.initializeData();
         Stage dialogStage = new Stage();
-        dialogStage.setTitle("Birthday Statistics");
+        dialogStage.setTitle("Заказ на неделю");
         dialogStage.initModality(Modality.WINDOW_MODAL);
         dialogStage.initOwner(rootViewController.getPrimaryStage());
         Scene scene = new Scene(rootPane);
@@ -83,7 +83,7 @@ public class OrderInfoOverviewController {
         setContentInTableView(monday,mondayColumn,Day.MONDAY.toString(),orderMap.get(Day.MONDAY));
         setContentInTableView(tuesday,tuesdayColumn,Day.TUESDAY.toString(),orderMap.get(Day.TUESDAY));
         setContentInTableView(wednesday,wednesdayColumn,Day.WEDNESDAY.toString(),orderMap.get(Day.WEDNESDAY));
-        setContentInTableView(thrirsday,thirsdayColumn,Day.THURSDAY.toString(),orderMap.get(Day.THURSDAY));
+        setContentInTableView(thursday,thursdayColumn,Day.THURSDAY.toString(),orderMap.get(Day.THURSDAY));
         setContentInTableView(friday,fridayColumn,Day.FRIDAY.toString(),orderMap.get(Day.FRIDAY));
     }
 

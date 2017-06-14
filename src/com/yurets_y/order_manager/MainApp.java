@@ -7,6 +7,7 @@ import com.yurets_y.order_manager.view.RootViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -39,13 +40,18 @@ public class MainApp extends Application {
         rootViewController.addOrderTab(Day.THURSDAY);
         rootViewController.addOrderTab(Day.FRIDAY);
         //Загрузка меню из сериализированного файла
-        rootViewController.loadBackupFiles();
+
         primaryStage.setOnCloseRequest(event -> rootViewController.handleExit());
 
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
+
+        String url = "file:res/images/restaurantIcon.png";
+        this.primaryStage.getIcons().add(new Image(url));
+
         primaryStage.show();
-//        rootViewController.loadStartMenu();
+
+        rootViewController.loadBackupFiles();
 
     }
 }

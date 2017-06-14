@@ -58,9 +58,9 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <TableView fx:id="thrirsday" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
+            <TableView fx:id="thursday" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3">
               <columns>
-                <TableColumn fx:id="thirsdayColumn" prefWidth="75.0" text="Четверг" />
+                <TableColumn fx:id="thursdayColumn" prefWidth="75.0" text="Четверг" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

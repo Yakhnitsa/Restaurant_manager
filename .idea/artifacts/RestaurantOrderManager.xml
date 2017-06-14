@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="javafx" name="JavaFXApp">
+  <artifact type="javafx" name="RestaurantOrderManager">
     <output-path>$PROJECT_DIR$/../../../../РАЗРАБОТКА/CompletedApps/restaurant_manager</output-path>
     <properties id="javafx-properties">
       <options>
@@ -22,7 +22,9 @@
         <element id="extracted-dir" path="$PROJECT_DIR$/../../../java_lib/appache_poi/poi-3.14/poi-ooxml-schemas-3.14-20160307.jar" path-in-jar="/" />
         <element id="extracted-dir" path="$PROJECT_DIR$/../../../java_lib/appache_poi/poi-3.14/ooxml-lib/xmlbeans-2.6.0.jar" path-in-jar="/" />
       </element>
-      <element id="dir-copy" path="$PROJECT_DIR$/res" />
+      <element id="directory" name="res">
+        <element id="dir-copy" path="$PROJECT_DIR$/res" />
+      </element>
     </root>
   </artifact>
 </component>

@@ -50,4 +50,10 @@ public class CollectionsUtil {
         });
         return filteredData;
     }
+
+    public static <T>void removeIfEquals(List<T> resourse, List<T> target){
+        target.forEach(targetElement -> {
+            resourse.removeIf(resourseElement -> resourseElement==targetElement);
+        });
+    }
 }

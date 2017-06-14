@@ -38,6 +38,38 @@ public class MessageManager implements Thread.UncaughtExceptionHandler{
         showMessage(stage, Alert.AlertType.ERROR,message,"Ошибка!!!",contentText);
     }
 
+    public void showTextAreaMessage(Stage stage,String title,String message, String windowText){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        System.out.println(stage);
+        if(stage != null){
+            alert.initOwner(stage);
+        }
+
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+
+        Label label = new Label("Детали");
+
+        TextArea textArea = new TextArea(windowText);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
+
+        //Добавление текстовой панели на окно
+        alert.getDialogPane().setExpandableContent(expContent);
+
+        alert.showAndWait();
+    }
+
     public void showExceptionMessage(Throwable ex,Stage owner){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initOwner(owner);

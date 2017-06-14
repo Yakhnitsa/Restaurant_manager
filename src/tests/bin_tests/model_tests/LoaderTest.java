@@ -1,7 +1,7 @@
 package tests.bin_tests.model_tests;
 
 import com.yurets_y.order_manager.bin.Dish;
-import com.yurets_y.order_manager.model.MenuLoaderSaver;
+import com.yurets_y.order_manager.model.MenuSaverLoader;
 import com.yurets_y.order_manager.util.CollectionsUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
@@ -19,9 +19,9 @@ import java.util.Set;
  */
 public class LoaderTest {
     public static void main(String[] args) throws IOException, InvalidFormatException {
-        MenuLoaderSaver menuLoaderSaver = new MenuLoaderSaver();
+        MenuSaverLoader menuSaverLoader = new MenuSaverLoader();
         File excelFile = new File("res/files/Menu2.xlsx");
-        List<Dish> dishes = menuLoaderSaver.loadMenuFromExcel(excelFile);
+        List<Dish> dishes = menuSaverLoader.loadMenuFromExcel(excelFile);
         Set<String> dishTypes = CollectionsUtil.getMenusSet(dishes);
         System.out.println(dishTypes);
         List<Dish> salats = CollectionsUtil.getMenuByType(dishes,dishTypes.iterator().next());

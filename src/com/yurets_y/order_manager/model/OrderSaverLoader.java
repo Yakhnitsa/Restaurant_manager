@@ -3,6 +3,7 @@ package com.yurets_y.order_manager.model;
 import com.yurets_y.order_manager.bin.Day;
 import com.yurets_y.order_manager.bin.Dish;
 import com.yurets_y.order_manager.bin.Order;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -47,6 +48,10 @@ public class OrderSaverLoader {
                 .stream()
                 .map(entry -> entry.getValue().size())
                 .max(Comparator.comparing(size -> size.intValue())).get();
+        // Заполнение имени заказа
+        Row nameRow = sheet.getRow(0) != null? sheet.getRow(0) : sheet.createRow(0);
+        Cell nameCell = nameRow.getCell(0) != null ? nameRow.getCell(0) : nameRow.createCell(0);
+        nameCell.setCellValue(order.getName());
         //Заполнение строки заголовков
         Row titleRow = sheet.getRow(1) != null ? sheet.getRow(1) : sheet.createRow(1);
         int i = 0;
@@ -58,6 +63,7 @@ public class OrderSaverLoader {
             }
             i++;
         }
+        //Заполнение данных о блюдах в таблицу
         int rowIndex = 0;
         while(rowIndex <= rowCount){
             int columnIndex = 0;
@@ -87,6 +93,9 @@ public class OrderSaverLoader {
                 .stream()
                 .map(entry -> entry.getValue().size())
                 .max(Comparator.comparing(size -> size.intValue())).get();
+        //Запись имени заказа в книгу
+        Row nameRow = sheet.createRow(0);
+        nameRow.createCell(0).setCellValue(order.getName());
         //Заполнение строки заголовков
         Row titleRow = sheet.createRow(1);
         int i = 0;
@@ -112,7 +121,6 @@ public class OrderSaverLoader {
         Marshaller m = context.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-        // Маршаллируем и сохраняем XML в файл.
         m.marshal(order, file);
     }
 

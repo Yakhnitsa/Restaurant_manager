@@ -2,7 +2,6 @@ package com.yurets_y.order_manager.view;
 
 import com.yurets_y.order_manager.bin.Day;
 import com.yurets_y.order_manager.bin.Dish;
-import com.yurets_y.order_manager.view.RootViewController;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,7 +18,8 @@ import javafx.stage.Stage;
 import java.util.List;
 
 /**
- * Created by Admin on 26.05.2017.
+ * Контроллер вкладки заказа
+ *
  */
 public class OrderTabController {
 
@@ -77,11 +77,11 @@ public class OrderTabController {
         return totalProperty;
     }
 
-    public List<Dish> getSelectedDish() {
+    List<Dish> getSelectedDish() {
         return dishes.getSelectionModel().getSelectedItems();
     }
 
-    public void addDish(Dish dish) {
+    void addDish(Dish dish) {
         dishList.add(dish);
     }
 
@@ -92,7 +92,7 @@ public class OrderTabController {
 
     }
 
-    public void setRootControllerAndDay(RootViewController controller,Day day) {
+    void setRootControllerAndDay(RootViewController controller,Day day) {
 
         this.rootController = controller;
         this.primaryStage = controller.getPrimaryStage();
@@ -103,11 +103,11 @@ public class OrderTabController {
         System.out.println(getSelectedDish());
     }
 
-    public Day getCurrentDay() {
+    Day getCurrentDay() {
         return currentDay;
     }
 
-    public List<Dish> getDishList() {
+    List<Dish> getDishList() {
         return dishList;
     }
     @FXML

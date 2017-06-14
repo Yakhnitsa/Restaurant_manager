@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yurets_y.order_manager.bin.Order;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -14,10 +15,16 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Created by Admin on 25.05.2017.
  */
-public class MenuLoaderSaver {
+public class MenuSaverLoader {
 
     public List<Dish> loadMenuFromExcel(File file) throws IOException, InvalidFormatException {
         List<Dish> dishes = new ArrayList<>();
@@ -63,13 +70,24 @@ public class MenuLoaderSaver {
         }
     }
 
-    public List<Dish> loadMenuFromXML(File file) {
-        throw new RuntimeException("Метод недоделан");
+    public List<Dish> loadMenuFromXML(File file) throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(DishMenuWrapper.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        DishMenuWrapper wrapper = (DishMenuWrapper)unmarshaller.unmarshal(file);
+        return wrapper.getDishes();
+    }
+
+    public void saveMenuToXML(List<Dish> dishes, File file) throws JAXBException {
+        DishMenuWrapper wrapper = new DishMenuWrapper();
+        wrapper.setDishes(dishes);
+        JAXBContext context = JAXBContext.newInstance(DishMenuWrapper.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.marshal(wrapper, file);
     }
 
     //Разбор строки XSSFRow и получение блюда из строки
-    //TODO изменить на private
-    public Dish getDishFromRow(Row row) {
+    private Dish getDishFromRow(Row row) {
         String type = "";
         String name = "";
         String days = "";
@@ -103,5 +121,20 @@ public class MenuLoaderSaver {
         Dish dish = new Dish(type, name, description, daysList, price);
         return dish;
     }
+
+    @XmlRootElement
+    private static class DishMenuWrapper{
+        public List<Dish> getDishes() {
+            return dishes;
+        }
+
+        public void setDishes(List<Dish> dishes) {
+            this.dishes = dishes;
+        }
+
+        List<Dish> dishes;
+    }
+
+
 
 }
