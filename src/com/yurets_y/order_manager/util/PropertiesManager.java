@@ -34,7 +34,7 @@ public class PropertiesManager {
         return instanse;
     }
 
-    public File getDefaultAddFolder() {
+    public File getDefaultLoadFolder() {
         String filePath = properties.getProperty("def.add.folder");
         return getFile(filePath);
     }
@@ -46,6 +46,14 @@ public class PropertiesManager {
 
     public File getDefaultOrderFile(){
         String filePath = properties.getProperty("def.order.file");
+        if ((filePath == null) || (filePath.equals(""))) {
+            return null;
+        }
+        return new File(filePath);
+    }
+
+    public File getOrderTemplateFile(){
+        String filePath = properties.getProperty("order.template.file");
         if ((filePath == null) || (filePath.equals(""))) {
             return null;
         }
@@ -69,7 +77,7 @@ public class PropertiesManager {
         return properties.getProperty("prog.name");
     }
 
-    public void setDefaultAddFolder(File file) {
+    public void setDefaultLoadFolder(File file) {
         if (!file.exists()) return;
         properties.setProperty("def.add.folder", file.getAbsolutePath());
         savePropertyFile();

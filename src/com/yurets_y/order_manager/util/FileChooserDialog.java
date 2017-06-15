@@ -19,7 +19,7 @@ public class FileChooserDialog {
     }
 
     public List<File> getXMLFilesToLoad(Stage primaryStage) {
-        File defFile = PropertiesManager.getInstance().getDefaultAddFolder();
+        File defFile = PropertiesManager.getInstance().getDefaultLoadFolder();
         return getFilesListToLoadFX(primaryStage, defFile, "*.xml", "xml files");
     }
 
@@ -45,7 +45,7 @@ public class FileChooserDialog {
     }
 
     public File getFolderToLoad(Stage primaryStage) {
-        File defaultLoadFolder = PropertiesManager.getInstance().getDefaultAddFolder();
+        File defaultLoadFolder = PropertiesManager.getInstance().getDefaultLoadFolder();
         return getFolder(primaryStage,defaultLoadFolder);
     }
 

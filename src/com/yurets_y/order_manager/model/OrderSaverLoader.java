@@ -3,6 +3,7 @@ package com.yurets_y.order_manager.model;
 import com.yurets_y.order_manager.bin.Day;
 import com.yurets_y.order_manager.bin.Dish;
 import com.yurets_y.order_manager.bin.Order;
+import com.yurets_y.order_manager.util.PropertiesManager;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -28,7 +29,13 @@ public class OrderSaverLoader {
         if(file.exists()){
             workbook = getOvereatenWorkbookFromOrder(file,order);
         }else{
-            workbook  = getNewWorkbookFromOrder(order);
+            File templateFile = PropertiesManager.getInstance().getOrderTemplateFile();
+            if((templateFile != null)&&(templateFile.exists())){
+                workbook = getOvereatenWorkbookFromOrder(templateFile,order);
+            }
+            else {
+                workbook = getNewWorkbookFromOrder(order);
+            }
         }
         FileOutputStream fileOut = new FileOutputStream(file);
         workbook.write(fileOut);

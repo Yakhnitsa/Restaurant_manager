@@ -7,7 +7,7 @@
         <prise>2700</prise>
         <description>масса 27.0 дни: </description>
         <name>Ананасовый с ветчиной </name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -16,7 +16,7 @@
         <prise>1200</prise>
         <description>масса 12.0 дни: </description>
         <name>Бурячек отварной </name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -25,7 +25,7 @@
         <prise>1900</prise>
         <description>масса 19.0 дни: </description>
         <name>Весенний с крабовыми палочками </name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -34,7 +34,7 @@
         <prise>2500</prise>
         <description>масса 25.0 дни: </description>
         <name>Греческий </name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -43,7 +43,7 @@
         <prise>2000</prise>
         <description>масса 20.0 дни: </description>
         <name>Днестр</name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -52,7 +52,7 @@
         <prise>1500</prise>
         <description>масса 15.0 дни: </description>
         <name>Капусточка с огурцами и помидорами </name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -61,7 +61,7 @@
         <prise>1300</prise>
         <description>масса 13.0 дни: </description>
         <name>Капусточка с свежая с зеленью </name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -70,7 +70,7 @@
         <prise>2000</prise>
         <description>масса 20.0 дни: </description>
         <name>Крабовый салат </name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -79,7 +79,7 @@
         <prise>2000</prise>
         <description>масса 20.0 дни: </description>
         <name>Мимоза</name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -88,7 +88,7 @@
         <prise>1500</prise>
         <description>масса 15.0 дни: </description>
         <name>Морковка по-корейски </name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -97,7 +97,7 @@
         <prise>1300</prise>
         <description>масса 13.0 дни: </description>
         <name>Капуста квашеная </name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -106,7 +106,7 @@
         <prise>1500</prise>
         <description>масса 15.0 дни: </description>
         <name>Морская капуста </name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -115,7 +115,7 @@
         <prise>1800</prise>
         <description>масса 18.0 дни: </description>
         <name>Оливье</name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -124,7 +124,7 @@
         <prise>1900</prise>
         <description>масса 19.0 дни: </description>
         <name>Пекинский</name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -133,7 +133,7 @@
         <prise>2800</prise>
         <description>масса 28.0 дни: </description>
         <name>Цезарь</name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -142,7 +142,7 @@
         <prise>2200</prise>
         <description>масса 22.0 дни: </description>
         <name>Летний</name>
-        <type>Салаты:</type>
+        <type>Салаты</type>
     </dishes>
     <dishes>
         <days>
@@ -168,7 +168,7 @@
         </days>
         <prise>1500</prise>
         <description>масса 15.0 дни: </description>
-        <name>Бульон куриный с лапшой 1</name>
+        <name>Бульон куриный с лапшой</name>
         <type>Первые блюда</type>
     </dishes>
     <dishes>
@@ -233,6 +233,24 @@
         <description>масса 30.0 дни: </description>
         <name>Солянка мясная </name>
         <type>Первые блюда</type>
+    </dishes>
+    <dishes>
+        <days>
+            <days>ANY_DAY</days>
+        </days>
+        <prise>2500</prise>
+        <description>масса 25.0 дни: </description>
+        <name>Филе куриное на гриле </name>
+        <type>Мясные блюда</type>
+    </dishes>
+    <dishes>
+        <days>
+            <days>ANY_DAY</days>
+        </days>
+        <prise>2200</prise>
+        <description>масса 22.0 дни: </description>
+        <name>Филе куриное отварное </name>
+        <type>Мясные блюда</type>
     </dishes>
     <dishes>
         <days>
@@ -430,6 +448,15 @@
         <prise>2300</prise>
         <description>масса 23.0 дни: </description>
         <name>Рыбная котлета на пару </name>
+        <type>Рыба</type>
+    </dishes>
+    <dishes>
+        <days>
+            <days>ANY_DAY</days>
+        </days>
+        <prise>4000</prise>
+        <description>масса 40.0 дни: </description>
+        <name>Скумбрия запеченная</name>
         <type>Рыба</type>
     </dishes>
     <dishes>
@@ -643,10 +670,19 @@
         <days>
             <days>ANY_DAY</days>
         </days>
+        <prise>1500</prise>
+        <description>масса 15.0 дни: </description>
+        <name>Картошка фри</name>
+        <type>Гарниры</type>
+    </dishes>
+    <dishes>
+        <days>
+            <days>ANY_DAY</days>
+        </days>
         <prise>2200</prise>
         <description>масса 22.0 дни: </description>
         <name>Штрудель вишня </name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -655,7 +691,7 @@
         <prise>2300</prise>
         <description>масса 23.0 дни: </description>
         <name>Наполеон домашний </name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -664,7 +700,7 @@
         <prise>2000</prise>
         <description>масса 20.0 дни: </description>
         <name>Брауни</name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -673,7 +709,7 @@
         <prise>2000</prise>
         <description>масса 20.0 дни: </description>
         <name>Чизкейк</name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -682,7 +718,7 @@
         <prise>1300</prise>
         <description>масса 13.0 дни: </description>
         <name>Капкейк фруктовый </name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -691,7 +727,7 @@
         <prise>2500</prise>
         <description>масса 25.0 дни: </description>
         <name>Блинчики с яблоком </name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -700,7 +736,7 @@
         <prise>2500</prise>
         <description>масса 25.0 дни: </description>
         <name>Блинчики с вишней </name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -709,7 +745,7 @@
         <prise>2800</prise>
         <description>масса 28.0 дни: </description>
         <name>Блинчики с шоколадом </name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -718,7 +754,7 @@
         <prise>2300</prise>
         <description>масса 23.0 дни: </description>
         <name>Тирамису </name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -727,7 +763,7 @@
         <prise>2000</prise>
         <description>масса 20.0 дни: </description>
         <name>Фруктовый салат </name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -736,7 +772,7 @@
         <prise>1800</prise>
         <description>масса 18.0 дни: </description>
         <name>Фруктовое желе </name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -745,7 +781,7 @@
         <prise>1300</prise>
         <description>масса 13.0 дни: </description>
         <name>Печеное яблочко </name>
-        <type>Десерты:</type>
+        <type>Десерты</type>
     </dishes>
     <dishes>
         <days>
@@ -890,5 +926,32 @@
         <description>масса (говядина,яйцо)  дни: </description>
         <name>Star Burger </name>
         <type>БУРГЕРЫ </type>
+    </dishes>
+    <dishes>
+        <days>
+            <days>ANY_DAY</days>
+        </days>
+        <prise>2500</prise>
+        <description>масса 25.0 дни: </description>
+        <name>Узвар</name>
+        <type>Напитки</type>
+    </dishes>
+    <dishes>
+        <days>
+            <days>ANY_DAY</days>
+        </days>
+        <prise>2500</prise>
+        <description>масса 25.0 дни: </description>
+        <name>Компот</name>
+        <type>Напитки</type>
+    </dishes>
+    <dishes>
+        <days>
+            <days>ANY_DAY</days>
+        </days>
+        <prise>2500</prise>
+        <description>масса 25.0 дни: </description>
+        <name>Морс</name>
+        <type>Напитки</type>
     </dishes>
 </dishMenuWrapper>

@@ -78,7 +78,7 @@ public class RootViewController {
         return currentTabController.getSelectedDish();
     }
 
-    public void addMenu(String title, List<Dish> dishList) {
+    private void addMenu(String title, List<Dish> dishList) {
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MenuTab.fxml"));
             AnchorPane table = loader.load();
@@ -103,9 +103,7 @@ public class RootViewController {
             controller.setRootControllerAndDay(this, day);
             Tab tab = new Tab(day.toString());
 
-            tab.setOnSelectionChanged(event -> {
-                dayFilter.setValue(dayFilterCheckbox.isSelected() ? controller.getCurrentDay() : Day.ANY_DAY);
-            });
+            tab.setOnSelectionChanged(event -> dayFilter.setValue(dayFilterCheckbox.isSelected() ? controller.getCurrentDay() : Day.ANY_DAY));
             tab.setContent(table);
 
             orderTabsMap.put(tab, controller);
@@ -125,13 +123,13 @@ public class RootViewController {
             System.out.println("No selected item");
         }
     }
-
-    public void removeDishFromOrder() {
+    @FXML
+    private void removeDishFromOrder() {
         OrderTabController orderController = orderTabsMap.get(orderTabs.getSelectionModel().getSelectedItem());
         orderController.removeSelected();
     }
 
-    public Stage getPrimaryStage() {
+    Stage getPrimaryStage() {
         return primaryStage;
     }
 
@@ -150,7 +148,7 @@ public class RootViewController {
     }
 
     @FXML
-    private void showOrder() {
+    void showOrder() {
         try {
             OrderInfoOverviewController.showOrder(getOrder(),this);
         } catch (IOException e) {
@@ -162,8 +160,8 @@ public class RootViewController {
     }
 
     @FXML
-    private void saveOrderToXML() {
-        File defaultFile = PropertiesManager.getInstance().getDefaultOrderFile();
+    void saveOrderToXML() {
+        File defaultFile = PropertiesManager.getInstance().getDefaultSaveFolder();
         File file = FileChooserDialog.getInstance().getXMLFileToSave(primaryStage, defaultFile);
         if (file == null) {
             return;
@@ -183,13 +181,17 @@ public class RootViewController {
 
     @FXML
     void saveOrderToExcel() {
-        File defaultFile = PropertiesManager.getInstance().getDefaultOrderFile();
+        File defaultFile = PropertiesManager.getInstance().getDefaultSaveFolder();
         File file = FileChooserDialog.getInstance().getExelFileToSave(primaryStage, defaultFile);
         if (file == null) {
             return;
         }
         try {
             orderSaverLoader.saveOrderToExcel(file, getOrder());
+            //Сохранение бекап файла в xml формат
+            File xmlFile = new File(file.getAbsolutePath().substring(0,file.getAbsolutePath().lastIndexOf(".")) + "_backup.xml");
+            orderSaverLoader.saveOrderToXML(xmlFile, getOrder());
+
             String message = "Заказ успешно сохранен";
             String title = "Coхранение заказа";
             String content = "Вы желаете открыть файл заказа:\n" + file.getAbsolutePath();
@@ -197,7 +199,7 @@ public class RootViewController {
             if(answer == ButtonType.OK){
                 openFileInDesktop(file);
             }
-        } catch (IOException e) {
+        } catch (IOException|JAXBException e) {
             String message = "Невозможно сохранить файл!";
             String contentText = "Возможно файл открыт в другом приложении или защищен от записи";
             MessageManager.getInstance().showErrorMessage(primaryStage, message, contentText);
@@ -207,7 +209,7 @@ public class RootViewController {
 
     @FXML
     private void loadOrderFromXML() {
-        File defaultFile = PropertiesManager.getInstance().getDefaultAddFolder();
+        File defaultFile = PropertiesManager.getInstance().getDefaultLoadFolder();
         File file = FileChooserDialog.getInstance().getXMLFileToLoad(primaryStage,defaultFile);
         if((file != null)&&(file.exists())){
             try {
@@ -228,19 +230,47 @@ public class RootViewController {
     private void loadOrderFromExcel() {
 
     }
+    @FXML
+    private void changeDefaultSaveFolder() {
+        File defaultFile = PropertiesManager.getInstance().getDefaultSaveFolder();
+        File file = FileChooserDialog.getInstance().getFolder(primaryStage,defaultFile);
+        if ((file != null) && file.exists()) {
+            PropertiesManager.getInstance().setDefaultSaveFolder(file);
+            String message = "Папка экспорта успешно изменена";
+            String context = "Папка экспорта по уполчанию \n" + file;
+            MessageManager.getInstance().showInfoMessage(primaryStage,message,context);
+        } else {
+            MessageManager.getInstance().showErrorMessage(primaryStage, "Ошибка сохранения", "Путь не выбран или не существует");
+        }
+    }
+    @FXML
+    private void changeDefaultLoadFolder() {
+        File defaultFile = PropertiesManager.getInstance().getDefaultLoadFolder();
+        File file = FileChooserDialog.getInstance().getFolder(primaryStage,defaultFile);
+        if ((file != null) && file.exists()) {
+            PropertiesManager.getInstance().setDefaultLoadFolder(file);
+            String message = "Папка загрузки успешно изменена";
+            String context = "Папка загрузки по уполчанию \n" + file;
+            MessageManager.getInstance().showInfoMessage(primaryStage,message,context);
+        } else {
+            MessageManager.getInstance().showErrorMessage(primaryStage, "Ошибка сохранения", "Путь не выбран или не существует");
+        }
+    }
 
     @FXML
     private void loadMenuFromExcel() {
-        File defaultFile = PropertiesManager.getInstance().getDefaultMenuFile();
+        File defaultFile = PropertiesManager.getInstance().getDefaultLoadFolder();
         File file = FileChooserDialog.getInstance().getExelFileToLoad(primaryStage, defaultFile);
+        if((file == null)||(!file.exists())){
+            MessageManager.getInstance().showInfoMessage(primaryStage,"Файл не выбран","Файл не выбран или не существует!");
+        }
         try {
             dishMenu = menuSaverLoader.loadMenuFromExcel(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidFormatException e) {
+        } catch (IOException | InvalidFormatException e) {
             e.printStackTrace();
         }
         loadMenu(dishMenu);
+        MessageManager.getInstance().showInfoMessage(primaryStage,"Меню успешно загружено","");
 
     }
 
@@ -283,6 +313,9 @@ public class RootViewController {
     }
 
     private void loadMenu(List<Dish> menu) {
+        //Удаление старого меню:
+        menuTabsMap.clear();
+        menuTabs.getTabs().removeIf(pred -> true);
         Set<String> menuTypes = CollectionsUtil.getMenusSet(menu);
         for (String menuType : menuTypes) {
             List<Dish> dishes = CollectionsUtil.getMenuByType(menu, menuType);
@@ -317,7 +350,6 @@ public class RootViewController {
         if (dishMenu != null) {
             try {
                 menuSaverLoader.saveMenuToXML(dishMenu, file);
-                System.out.println("сериализация меню прошла успешно");
             } catch (JAXBException e) {
                 MessageManager.getInstance().showExceptionMessage(e, primaryStage);
             }
@@ -387,10 +419,10 @@ public class RootViewController {
     }
 
     private void openFileInDesktop(File file){
-        Desktop desktop = null;
+        Desktop desktop;
         if (Desktop.isDesktopSupported()) {
             desktop = Desktop.getDesktop();
-        }
+        }else{return;}
         try {
             desktop.open(file);
         } catch (IOException ioe) {
@@ -404,9 +436,7 @@ public class RootViewController {
         order.setName(titleTextfield.getText());
 
         Map<Day, List<Dish>> orderMap = new LinkedHashMap<>();
-        orderTabsMap.forEach((key, entry) -> {
-            orderMap.put(entry.getCurrentDay(), entry.getDishList());
-        });
+        orderTabsMap.forEach((key, entry) -> orderMap.put(entry.getCurrentDay(), entry.getDishList()));
         order.setOrderMap(orderMap);
         return order;
     }

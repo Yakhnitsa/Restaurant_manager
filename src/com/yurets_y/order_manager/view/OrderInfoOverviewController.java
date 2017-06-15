@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -26,7 +27,8 @@ public class OrderInfoOverviewController {
     private Order order;
     @FXML
     private BorderPane rootPane;
-
+    @FXML
+    private Label titleLabel;
     @FXML
     private TableView<Dish> monday;
     @FXML
@@ -48,7 +50,7 @@ public class OrderInfoOverviewController {
     @FXML
     private TableColumn<Dish,String> fridayColumn;
 
-    public static void showOrder(Order order, RootViewController rootViewController) throws IOException {
+    static void showOrder(Order order, RootViewController rootViewController) throws IOException {
         FXMLLoader loader = new FXMLLoader(OrderInfoOverviewController.class.getResource("OrderInfoOverview.fxml"));
         BorderPane rootPane = loader.load();
         OrderInfoOverviewController controller = loader.getController();
@@ -80,6 +82,7 @@ public class OrderInfoOverviewController {
 
     private void initializeData(){
         Map<Day,List<Dish>> orderMap = order.getOrderMap();
+        titleLabel.setText(order.getName());
         setContentInTableView(monday,mondayColumn,Day.MONDAY.toString(),orderMap.get(Day.MONDAY));
         setContentInTableView(tuesday,tuesdayColumn,Day.TUESDAY.toString(),orderMap.get(Day.TUESDAY));
         setContentInTableView(wednesday,wednesdayColumn,Day.WEDNESDAY.toString(),orderMap.get(Day.WEDNESDAY));

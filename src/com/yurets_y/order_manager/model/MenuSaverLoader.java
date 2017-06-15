@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yurets_y.order_manager.bin.Order;
+import com.yurets_y.order_manager.util.MessageManager;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -27,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class MenuSaverLoader {
 
     public List<Dish> loadMenuFromExcel(File file) throws IOException, InvalidFormatException {
+
         List<Dish> dishes = new ArrayList<>();
         XSSFWorkbook myExcelBook = new XSSFWorkbook(file);
         XSSFSheet myExcelSheet = myExcelBook.getSheetAt(0);
@@ -36,7 +38,6 @@ public class MenuSaverLoader {
         do {
             row = myExcelSheet.getRow(rowIndex++);
             if (row == null) {
-                System.out.println("null reference " + rowIndex);
                 break;
             }
             dish = getDishFromRow(row);

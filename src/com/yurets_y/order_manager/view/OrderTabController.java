@@ -2,6 +2,7 @@ package com.yurets_y.order_manager.view;
 
 import com.yurets_y.order_manager.bin.Day;
 import com.yurets_y.order_manager.bin.Dish;
+import com.yurets_y.order_manager.util.MessageManager;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -99,10 +100,6 @@ public class OrderTabController {
         this.currentDay = day;
     }
 
-    public void viewInfo() {
-        System.out.println(getSelectedDish());
-    }
-
     Day getCurrentDay() {
         return currentDay;
     }
@@ -110,9 +107,24 @@ public class OrderTabController {
     List<Dish> getDishList() {
         return dishList;
     }
+
     @FXML
-    private void handleSaveButton(){
+    private void saveOrderToXML(){
+        rootController.saveOrderToXML();
+    }
+    @FXML
+    private void saveOrderToExcel(){
         rootController.saveOrderToExcel();
     }
+    @FXML
+    private void showDishInfo(){
+        MessageManager.getInstance().showInfoMessage(primaryStage,"Информация о блюде",getSelectedDish().toString());
+    }
+    @FXML
+    private void showOrderInfo(){
+        rootController.showOrder();
+    }
+
+
 
 }
